@@ -1,4 +1,4 @@
-﻿using bank;
+using bank;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -35,14 +35,14 @@ Client client2 = new Client(id2, "Nermin", "Mursudova", 23, 5000, card2);
 Client client3 = new Client(id3, "Omer", "Aliyev", 14, 3000, card3);
 Client client4 = new Client(id4, "Burhan", "Orucov", 15, 5000, card4);
 Client client5 = new Client(id5, "Benovse", "Rehimova", 19, 10000, card5);
-Client client6= new Client(id6, "Nigar", "Xelilova", 19, 4000, card6);
+Client client6 = new Client(id6, "Nigar", "Xelilova", 19, 4000, card6);
 
 
 
 
 
 Operation[] operations = { };
-Client[] clients = { client1, client3, client2, client4, client5,client6 };
+Client[] clients = { client1, client3, client2, client4, client5, client6 };
 Bank bank = new Bank(clients, operations);
 
 while (true)
@@ -188,18 +188,28 @@ while (true)
                                 string input = ReadLine();
                                 if (double.TryParse(input, out double money))
                                 {
-                                    try
+                                    if (money < 1)
                                     {
-                                        bank.BalansdanCixma(index, money);
-                                        ForegroundColor = ConsoleColor.Green;
-                                        bank.AddOperation($" ~ Kartinizdan {money} AZN cixildi. Xais edirik pulunuzu goturun. ");
-                                        ResetColor();
-                                        break;
-
+                                        WriteLine(" ~ Mebleg 1 manatdan az olmamalidir!!");
+                                        continue;
                                     }
-                                    catch (Exception ex)
+                                    else
                                     {
-                                        WriteLine(ex.Message);
+                                        try
+                                        {
+                                            bank.BalansdanCixma(index, money);
+                                            ForegroundColor = ConsoleColor.Green;
+                                            bank.AddOperation($" ~ Kartinizdan {money} AZN cixildi. Xais edirik pulunuzu goturun. ");
+                                            ResetColor();
+                                            break;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            ForegroundColor = ConsoleColor.Red;
+                                            WriteLine(ex.Message);
+                                            ResetColor();
+                                        }
+                                        break;
                                     }
                                 }
                                 else
@@ -207,7 +217,7 @@ while (true)
                                     ForegroundColor = ConsoleColor.Red;
                                     WriteLine(" ~ Yanlis secim! yeniden cehd edin.. ");
                                     ResetColor();
-                                    
+
                                     continue;
                                 }
                             }
@@ -247,7 +257,7 @@ while (true)
                                 WriteLine(ex.Message);
                                 WriteLine($"\n | Ana menyuya qayıtmaq üçün hər hansı düyməyə basın...");
                                 ReadKey();
-                                
+
                             }
                         }
                         else
@@ -257,7 +267,7 @@ while (true)
                             Console.ResetColor();
                             continue;
                         }
-                       
+
                         break;
                     }
 
